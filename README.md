@@ -1,2 +1,2 @@
 # Spacevania
-Putting non-release builds in this branch is a capital crime
+This branch is exists for when we need to sumultaneously work as a group on the same thing
