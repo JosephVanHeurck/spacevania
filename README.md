@@ -1,2 +1,2 @@
-# Spacevania - Collaboration
-This branch is exists for when we need to sumultaneously work as a group on the same thing
+# Spacevania - Collaboration (Placeholder)
+This branch is a placeholder for any branch down the track that isn't tied down to one person
