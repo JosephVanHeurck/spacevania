@@ -10,6 +10,8 @@ enum EnemyState
     slash = 3
 }
 
+
+
 public class EnemyMovement : MonoBehaviour
 {
 
@@ -20,7 +22,8 @@ public class EnemyMovement : MonoBehaviour
 
     float speed;
     int dir = 1;
-    GameObject CollidedObject;
+    GameObject CollidedObjectH;
+    GameObject CollidedObjectV;
     public string wallTag;
 
     // Use this for initialization
@@ -81,25 +84,25 @@ public class EnemyMovement : MonoBehaviour
             {
                 hit.left = true;
                 collided = Physics2D.Raycast(boxPointsLeft[i], new Vector2(-1, 0), 0.05f);
-                CollidedObject = collided.collider.gameObject;
+                CollidedObjectH = collided.collider.gameObject;
             }
             if (Physics2D.Raycast(boxPointsRight[i], new Vector2(1, 0), 0.05f))
             {
                 hit.right = true;
                 collided = Physics2D.Raycast(boxPointsRight[i], new Vector2(1, 0), 0.05f);
-                CollidedObject = collided.collider.gameObject;
+                CollidedObjectH = collided.collider.gameObject;
             }
             if (Physics2D.Raycast(boxPointsTop[i], new Vector2(0, 1), 0.05f))
             {
                 hit.top = true;
                 collided = Physics2D.Raycast(boxPointsTop[i], new Vector2(0, 1), 0.05f);
-                CollidedObject = collided.collider.gameObject;
+                CollidedObjectV = collided.collider.gameObject;
             }
             if (Physics2D.Raycast(boxPointsBottom[i], new Vector2(0, -1), 0.05f))
             {
                 hit.bottom = true;
                 collided = Physics2D.Raycast(boxPointsBottom[i], new Vector2(0, -1), 0.05f);
-                CollidedObject = collided.collider.gameObject;
+                CollidedObjectV = collided.collider.gameObject;
             }
 
            
@@ -121,21 +124,21 @@ public class EnemyMovement : MonoBehaviour
         //Debug.DrawRay(rightPos, new Vector2(speed * Time.deltaTime, 0));
         //Debug.DrawRay(leftPos, new Vector2(-speed * Time.deltaTime, 0));
 
-        if (hit.left && CollidedObject.tag == wallTag)
+        if (hit.left && CollidedObjectH.tag == wallTag)
         {
             if (v.x < 0)
             {
                 dir *= -1;
             }
         }
-        if (hit.right && CollidedObject.tag == wallTag)
+        if (hit.right && CollidedObjectH.tag == wallTag)
         {
             if (v.x > 0)
             {
                 dir *= -1; ;
             }
         }
-        if (hit.bottom && CollidedObject.tag == wallTag)
+        if (hit.bottom && CollidedObjectV.tag == wallTag)
         {
             //v.y = 0;
         }
