@@ -403,6 +403,8 @@ F:\Sam\Documents\spacevania\Temp\bin\Debug\UnityEngine.UIAutomation.xml
 F:\Sam\Documents\spacevania\Temp\bin\Debug\UnityEngine.GoogleAudioSpatializer.xml
 F:\Sam\Documents\spacevania\Temp\bin\Debug\UnityEngine.HoloLens.xml
 F:\Sam\Documents\spacevania\Temp\bin\Debug\UnityEngine.SpatialTracking.xml
-F:\Sam\Documents\spacevania\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 F:\Sam\Documents\spacevania\obj\Debug\Assembly-CSharp.dll
 F:\Sam\Documents\spacevania\obj\Debug\Assembly-CSharp.pdb
+F:\Sam\Documents\spacevania\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+F:\Sam\Documents\spacevania\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
+F:\Sam\Documents\spacevania\obj\Debug\Assembly-CSharp.csproj.CopyComplete

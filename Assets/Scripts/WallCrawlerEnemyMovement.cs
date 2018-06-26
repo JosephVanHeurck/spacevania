@@ -2,33 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-enum EnemyState
+
+enum WallCrawlerMoveState
 {
-    moveleft = 0,
-    running = 1,
-    air = 2,
-    slash = 3
+    climbing = 0,
+    decending = 1,
+    moveLeft = 2,
+    moveRight = 3
 }
 
 
-
-public class EnemyMovement : MonoBehaviour
+public class WallCrawlerEnemyMovement : MonoBehaviour
 {
 
     Rigidbody2D rb;
     Collider2D box;
     //Animator animator;
-    state lastState;
+    //state lastState;
 
     float speed;
     int dir = 1;
+    public bool Clockwise;
     GameObject CollidedObjectH;
     GameObject CollidedObjectV;
     public string wallTag;
+    private WallCrawlerMoveState wallCrawlerMoveState;
+
 
     // Use this for initialization
     void Start()
     {
+        wallCrawlerMoveState = WallCrawlerMoveState.moveRight;
         rb = gameObject.GetComponent<Rigidbody2D>();
         box = gameObject.GetComponent<Collider2D>();
         //animator = gameObject.GetComponent<Animator>();
@@ -44,7 +48,7 @@ public class EnemyMovement : MonoBehaviour
 
         Vector2 size = box.bounds.size;
 
-        state currentState = lastState;
+        //state currentState = lastState;
 
         Vector2[] boxPointsLeft = new Vector2[] {
             new Vector2(pos.x - size.x / 2, pos.y + size.y / 2),
@@ -105,7 +109,7 @@ public class EnemyMovement : MonoBehaviour
                 CollidedObjectV = collided.collider.gameObject;
             }
 
-           
+
 
             Debug.DrawRay(boxPointsLeft[i], new Vector2(-0.05f, 0));
             Debug.DrawRay(boxPointsRight[i], new Vector2(0.05f, 0));
@@ -124,26 +128,99 @@ public class EnemyMovement : MonoBehaviour
         //Debug.DrawRay(rightPos, new Vector2(speed * Time.deltaTime, 0));
         //Debug.DrawRay(leftPos, new Vector2(-speed * Time.deltaTime, 0));
 
+        v.x = speed * dir;
+
         if (hit.left && CollidedObjectH.tag == wallTag)
         {
-            if (v.x < 0)
+            v.x = 0;
+            v.y = speed;
+
+            if (hit.bottom)
             {
-                dir *= -1;
+                Debug.Log("Bottom is obstructed");
+                v.y = -speed;
             }
-        }
-        if (hit.right && CollidedObjectH.tag == wallTag)
-        {
-            if (v.x > 0)
+
+            if (hit.top)
             {
-                dir *= -1; ;
+
+                Debug.Log("top is obstructed");
+                v.y = speed;
             }
-        }
-        if (hit.bottom && CollidedObjectV.tag == wallTag)
-        {
-            //v.y = 0;
+
         }
 
-        v.x = speed * dir;
+
+        if (hit.right && CollidedObjectH.tag == wallTag && wallCrawlerMoveState == WallCrawlerMoveState.moveRight)
+        {
+            Debug.Log(CollidedObjectH);
+
+            //Debug.Log("Hit right, its a wall");
+            wallCrawlerMoveState = WallCrawlerMoveState.climbing;
+            //if (hit.bottom)
+            //{
+            //    Debug.Log("Bottom is obstructed");
+            //    wallCrawlerMoveState = WallCrawlerMoveState.climbing;
+            //}
+
+            //if (hit.top)
+            //{
+            //    Debug.Log("top is obstructed");
+            //    wallCrawlerMoveState = WallCrawlerMoveState.decending;
+            //}
+        }
+
+
+        if (wallCrawlerMoveState == WallCrawlerMoveState.climbing && !hit.right)
+        {
+            Debug.Log("top of the wall");
+            wallCrawlerMoveState = WallCrawlerMoveState.moveRight;
+        }
+
+        //Debug.Log(wallCrawlerMoveState);
+
+
+        //if (hit.top && CollidedObjectV.tag == wallTag && v.y == speed)
+        //{
+        //    //Debug.Log("Hit right, its a wall");
+        //    v.x = -speed;
+        //    v.y = 0;
+
+        //    if (hit.left)
+        //    {
+        //        Debug.Log("Bottom is obstructed");
+
+
+        //        if (hit.right)
+        //        {
+
+        //            Debug.Log("top is obstructed");
+        //            v.x = speed;
+        //        }
+        //    }
+
+        //    if (hit.bottom && CollidedObjectV.tag == wallTag)
+        //    {
+        //        //Debug.Log("Hit right, its a wall");
+        //        //v.x = 0;
+        //       // v.y = speed;
+
+        //        if (hit.bottom)
+        //        {
+        //            Debug.Log("Bottom is obstructed");
+        //            v.y = -speed;
+        //        }
+
+        //        if (hit.top)
+        //        {
+
+        //            Debug.Log("top is obstructed");
+        //            v.y = speed;
+        //        }
+        //    }}
+
+
+
         //{
         //hit2D.collider.gameObject.active = false;
 
@@ -152,29 +229,26 @@ public class EnemyMovement : MonoBehaviour
         //v.x = 0;
         //}
 
-        if (currentState != lastState)
+        v.x = 0;
+        v.y = 0;
+        switch (wallCrawlerMoveState)
         {
-            lastState = currentState;
+            case WallCrawlerMoveState.moveRight:
+                v.x = speed;
+                break;
 
+            case WallCrawlerMoveState.moveLeft:
+                v.x = -speed;
+                break;
 
-            switch (currentState)
-            {
-                case state.idle:
-
-                    break;
-                case state.running:
-
-                    break;
-                case state.air:
-
-                    break;
-                case state.slash:
-
-                    break;
-            }
-            //animator.Play(anim);
+            case WallCrawlerMoveState.climbing:
+                v.y = speed;
+                break;
+            case WallCrawlerMoveState.decending:
+                v.y = -speed;
+                break;
         }
 
         rb.velocity = v;
+        }
     }
-}
