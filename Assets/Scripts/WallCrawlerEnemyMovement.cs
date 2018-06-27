@@ -25,6 +25,7 @@ public class WallCrawlerEnemyMovement : MonoBehaviour
     public bool Clockwise;
     GameObject CollidedObjectH;
     GameObject CollidedObjectV;
+    
     public string wallTag;
     private WallCrawlerMoveState wallCrawlerMoveState;
 
@@ -130,104 +131,74 @@ public class WallCrawlerEnemyMovement : MonoBehaviour
 
         v.x = speed * dir;
 
-        if (hit.left && CollidedObjectH.tag == wallTag)
+
+        switch (wallCrawlerMoveState)
         {
-            v.x = 0;
-            v.y = speed;
+            case WallCrawlerMoveState.moveRight:
+                if (!hit.bottom)
+                {
+                    Debug.Log("climbing down");
+                    wallCrawlerMoveState = WallCrawlerMoveState.decending;
+                }
 
-            if (hit.bottom)
-            {
-                Debug.Log("Bottom is obstructed");
-                v.y = -speed;
-            }
+                if (hit.right && CollidedObjectH.tag == wallTag)
+                {
+                    Debug.Log("time to climb up");
+                    wallCrawlerMoveState = WallCrawlerMoveState.climbing;
+                }
+                break;
 
-            if (hit.top)
-            {
 
-                Debug.Log("top is obstructed");
-                v.y = speed;
-            }
 
+            case WallCrawlerMoveState.moveLeft:
+                if (!hit.top)
+                {
+                    //Debug.Log("top of the wall");
+                    wallCrawlerMoveState = WallCrawlerMoveState.climbing;
+                }
+
+                if (hit.left && CollidedObjectH.tag == wallTag)
+                {
+                    //Debug.Log("top of the wall");
+                    wallCrawlerMoveState = WallCrawlerMoveState.decending;
+                    
+                }
+                break;
+
+
+
+            case WallCrawlerMoveState.climbing:
+                if (!hit.right)
+                {
+                    Debug.Log("top of the wall");
+                    wallCrawlerMoveState = WallCrawlerMoveState.moveRight;
+                }
+
+                if (hit.top && CollidedObjectV.tag == wallTag)
+                {
+                    //Debug.Log("top of the wall");
+                    wallCrawlerMoveState = WallCrawlerMoveState.moveLeft;
+                }
+                break;
+
+
+            case WallCrawlerMoveState.decending:
+                if (!hit.left)
+                {
+                    Debug.Log("bottom of the wall");
+                    wallCrawlerMoveState = WallCrawlerMoveState.moveLeft;
+                }
+
+                if (hit.bottom && CollidedObjectV.tag == wallTag)
+                {
+                    Debug.Log("reached bottom, moving right");
+                    wallCrawlerMoveState = WallCrawlerMoveState.moveRight;
+                }
+                break;
         }
 
 
-        if (hit.right && CollidedObjectH.tag == wallTag && wallCrawlerMoveState == WallCrawlerMoveState.moveRight)
-        {
-            Debug.Log(CollidedObjectH);
 
-            //Debug.Log("Hit right, its a wall");
-            wallCrawlerMoveState = WallCrawlerMoveState.climbing;
-            //if (hit.bottom)
-            //{
-            //    Debug.Log("Bottom is obstructed");
-            //    wallCrawlerMoveState = WallCrawlerMoveState.climbing;
-            //}
-
-            //if (hit.top)
-            //{
-            //    Debug.Log("top is obstructed");
-            //    wallCrawlerMoveState = WallCrawlerMoveState.decending;
-            //}
-        }
-
-
-        if (wallCrawlerMoveState == WallCrawlerMoveState.climbing && !hit.right)
-        {
-            Debug.Log("top of the wall");
-            wallCrawlerMoveState = WallCrawlerMoveState.moveRight;
-        }
-
-        //Debug.Log(wallCrawlerMoveState);
-
-
-        //if (hit.top && CollidedObjectV.tag == wallTag && v.y == speed)
-        //{
-        //    //Debug.Log("Hit right, its a wall");
-        //    v.x = -speed;
-        //    v.y = 0;
-
-        //    if (hit.left)
-        //    {
-        //        Debug.Log("Bottom is obstructed");
-
-
-        //        if (hit.right)
-        //        {
-
-        //            Debug.Log("top is obstructed");
-        //            v.x = speed;
-        //        }
-        //    }
-
-        //    if (hit.bottom && CollidedObjectV.tag == wallTag)
-        //    {
-        //        //Debug.Log("Hit right, its a wall");
-        //        //v.x = 0;
-        //       // v.y = speed;
-
-        //        if (hit.bottom)
-        //        {
-        //            Debug.Log("Bottom is obstructed");
-        //            v.y = -speed;
-        //        }
-
-        //        if (hit.top)
-        //        {
-
-        //            Debug.Log("top is obstructed");
-        //            v.y = speed;
-        //        }
-        //    }}
-
-
-
-        //{
-        //hit2D.collider.gameObject.active = false;
-
-
-        // If so, stop the movement
-        //v.x = 0;
-        //}
 
         v.x = 0;
         v.y = 0;
