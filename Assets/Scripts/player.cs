@@ -10,8 +10,11 @@ public class sidesHit {
     public bool top;
     public bool bottom;
 
+<<<<<<< HEAD
     public List<RaycastHit2D> rayCasts = new List<RaycastHit2D>();
 
+=======
+>>>>>>> sam's-corner
     public sidesHit() {
         left = false;
         right = false;
@@ -20,6 +23,7 @@ public class sidesHit {
     }
 }
 
+<<<<<<< HEAD
 public class adjustedPropulsion {
     public String playerXDirection = "none";
     public float newXPropulsion;
@@ -36,6 +40,8 @@ public class adjustedPropulsion {
     }
 }
 
+=======
+>>>>>>> sam's-corner
 
 enum state {
     idle = 0,
@@ -55,9 +61,12 @@ public class player : MonoBehaviour {
     float speed;
     float jumpSpeed;
 
+<<<<<<< HEAD
     Vector3 propulsionVelocity;
     adjustedPropulsion adjustedProp = new adjustedPropulsion();
 
+=======
+>>>>>>> sam's-corner
     float attackTime;
 
     bool isGrounded;
@@ -69,8 +78,12 @@ public class player : MonoBehaviour {
         box = gameObject.GetComponent<Collider2D>();
         animator = gameObject.GetComponent<Animator>();
         speed = 5;
+<<<<<<< HEAD
         propulsionVelocity = new Vector3(0,0,0);
         //attackTime = 0.2f;
+=======
+        attackTime = 0.2f;
+>>>>>>> sam's-corner
         jumpSpeed = 8;
         isGrounded = false;
 	}
@@ -88,12 +101,16 @@ public class player : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         Vector2 v = rb.velocity;
+<<<<<<< HEAD
         Vector3 pv = propulsionVelocity;
         Vector2 pos = rb.transform.position;
         adjustedPropulsion adjusted = adjustedProp;
 
         int mouseX = (int)Input.mousePosition.x;
         int mouseY = (int)Input.mousePosition.y;
+=======
+        Vector2 pos = rb.transform.position;
+>>>>>>> sam's-corner
 
         Vector2 size = box.bounds.size;
 
@@ -131,6 +148,7 @@ public class player : MonoBehaviour {
 
         for (int i = 0; i < 3; i++)
         {
+<<<<<<< HEAD
             // temp variable that holds raycast to be copied if raycast returns an object
             RaycastHit2D temp;
 
@@ -157,6 +175,27 @@ public class player : MonoBehaviour {
 
             Debug.DrawRay(boxPointsLeft[i], new Vector2(-0.05f, 0));
             Debug.DrawRay(boxPointsRight[i], new Vector2(0.05f, 0));
+=======
+            if (Physics2D.Raycast(boxPointsLeft[i], new Vector2(-1, 0), speed * Time.deltaTime))
+            {
+                hit.left = true;
+            }
+            if (Physics2D.Raycast(boxPointsRight[i], new Vector2(1, 0), speed * Time.deltaTime))
+            {
+                hit.right = true;
+            }
+            if (Physics2D.Raycast(boxPointsTop[i], new Vector2(0, 1), 0.05f))
+            {
+                hit.top = true;
+            }
+            if (Physics2D.Raycast(boxPointsBottom[i], new Vector2(0, -1), 0.05f))
+            {
+                hit.bottom = true;
+            }
+
+            Debug.DrawRay(boxPointsLeft[i], new Vector2(-speed * Time.deltaTime, 0));
+            Debug.DrawRay(boxPointsRight[i], new Vector2(speed * Time.deltaTime, 0));
+>>>>>>> sam's-corner
             Debug.DrawRay(boxPointsTop[i], new Vector2(0, 0.05f));
             Debug.DrawRay(boxPointsBottom[i], new Vector2(0, -0.05f));
         }
@@ -166,6 +205,7 @@ public class player : MonoBehaviour {
 
         bool justSlashed = false;
 
+<<<<<<< HEAD
 
         /*if (animator.GetCurrentAnimatorStateInfo(0).IsName("Slash")) {
             Debug.Log("Slashing");
@@ -191,6 +231,11 @@ public class player : MonoBehaviour {
             //currentState = state.slash;
             // preventing next if statement from actuating during current update
             //justSlashed = true;
+=======
+        if (Input.GetKey(KeyCode.Mouse0)) {
+            currentState = state.slash;
+            justSlashed = true;
+>>>>>>> sam's-corner
         }
         if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Slash") && !justSlashed)
         {
@@ -201,19 +246,25 @@ public class player : MonoBehaviour {
                 rb.transform.localScale = new Vector3(-1, 1, 1);
                 currentState = state.running;
                 v.x = speed;
+<<<<<<< HEAD
 
                 adjusted.playerXDirection = "right";
+=======
+>>>>>>> sam's-corner
             }
             else if (!Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.A) && !hit.left)
             {
                 rb.transform.localScale = new Vector3(1, 1, 1);
                 currentState = state.running;
                 v.x = -speed;
+<<<<<<< HEAD
 
                 adjusted.playerXDirection = "left";
             }
             else {
                 adjusted.playerXDirection = "none";
+=======
+>>>>>>> sam's-corner
             }
 
             if (hit.bottom)
@@ -245,6 +296,7 @@ public class player : MonoBehaviour {
             {
                 v.x = 0;
             }
+<<<<<<< HEAD
             // stopping propulsion
             if (pv.x < 0)
             {
@@ -261,6 +313,13 @@ public class player : MonoBehaviour {
             {
                 pv.x = 0;
             }
+=======
+        } 
+        if (hit.right) {
+            if (v.x > 0) {
+                v.x = 0;
+            }
+>>>>>>> sam's-corner
         }
         if (hit.top) {
             
@@ -273,6 +332,7 @@ public class player : MonoBehaviour {
             //v.x = 0;
         //}
 
+<<<<<<< HEAD
 
         float co = 40; // drag cooeficient
         float de = 5; // deceleration
@@ -367,6 +427,13 @@ public class player : MonoBehaviour {
 
             switch (currentState)
             {
+=======
+        if (currentState != lastState) {
+            lastState = currentState;
+            String anim = "";
+
+            switch (currentState) {
+>>>>>>> sam's-corner
                 case state.idle:
                     anim = "Idle";
                     break;
@@ -382,5 +449,10 @@ public class player : MonoBehaviour {
             }
             animator.Play(anim);
         }
+<<<<<<< HEAD
+=======
+
+        rb.velocity = v;
+>>>>>>> sam's-corner
 	}
 }

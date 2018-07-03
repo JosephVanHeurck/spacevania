@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+<<<<<<< HEAD
 # Visual Studio 15
+=======
+# Visual Studio for Mac
+>>>>>>> sam's-corner
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanity Tower", "Assembly-CSharp.csproj", "{1BB10BCD-2B5B-4590-A256-D079626CE274}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vanity Tower", "Assembly-CSharp-Editor.csproj", "{2175097A-6AEE-51C7-FDF8-B8032B5F4E4A}"
